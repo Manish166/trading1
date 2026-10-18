@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 80,
+  "trailingComma": "all",
+  "semi": true,
+  "arrowParens": "always",
+  // Fix: Instruct Oxfmt to rewrite and alphabetise imports on save
+  "sortImports": true,
+}
