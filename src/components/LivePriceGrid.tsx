@@ -1,7 +1,7 @@
 import { useMarketStore } from '@store/useMarketStore';
 import { PriceTickerTile } from './PriceTickerTile';
 
-export function LivePriceGrid() {
+export function LivePriceGrid(): React.JSX.Element {
     // Read the active watch list configuration array from your central store slice
     const watchedSymbols = useMarketStore((state) => state.watchedSymbols);
 

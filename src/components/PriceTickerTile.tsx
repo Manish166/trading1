@@ -5,7 +5,7 @@ interface PriceTickerTileProps {
     symbol: string;
 }
 
-export function PriceTickerTile({ symbol }: PriceTickerTileProps) {
+export function PriceTickerTile({ symbol }: PriceTickerTileProps): React.JSX.Element {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const priceTextRef = useRef<HTMLParagraphElement | null>(null);
     const previousPriceRef = useRef<number | null>(null);

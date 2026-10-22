@@ -18,15 +18,13 @@
     "import/unambiguous": "off",
     "unicorn/filename-case": "off",
     "import/no-default-export": "off",
+    "react(jsx-no-literals)": "off",
     "react/rules-of-hooks": "error",
     "react/exhaustive-deps": "error",
     "react/no-array-index-key": "error",
     "react/only-export-components": ["warn", { "allowConstantExport": true }],
     // Fix: Explicitly allow JSX inside .jsx and .tsx files
-    "react/jsx-filename-extension": [
-      "error",
-      { "extensions": [".jsx", ".tsx"] }
-    ],
+    "react/jsx-filename-extension": ["error", { "extensions": [".jsx", ".tsx"] }],
     // Fix: Configure React components to allow standard function declarations
 
     "typescript/no-explicit-any": "error",
@@ -35,6 +33,5 @@
     "typescript/strict-boolean-expressions": "error",
     "typescript/no-unnecessary-condition": "error",
     "typescript/explicit-function-return-type": "warn"
-
   }
 }

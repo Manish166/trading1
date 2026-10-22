@@ -1,4 +1,4 @@
-import { createStore } from './utils'; // Points to your custom DevTools factory wrapper
+import { createStoreFactory } from './utils'; // Points to your custom DevTools factory wrapper
 
 export interface TradeTick {
     id: number;        // Unique Trade ID from Binance (rawData.t)
@@ -24,7 +24,7 @@ interface MarketState {
 }
 
 // Create the typed Zustand store instance using your production utility wrapper
-export const useMarketStore = createStore<MarketState>((set) => ({
+export const useMarketStore = createStoreFactory<MarketState>((set) => ({
     // Initial starting baseline portfolio metrics
     watchedSymbols: ['BTCUSDT', 'ETHUSDT', 'BNBUSDT'],
     latestTicks: {},

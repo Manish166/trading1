@@ -1,7 +1,7 @@
 import { useWebSocket } from '@hooks/useWebSocket';
 import { LivePriceGrid } from '@components/LivePriceGrid';
 
-export default function DashboardRoot() {
+export default function DashboardRoot(): React.JSX.Element {
   // 1. Fire up the hot, permanent multiplex data tunnel on component root mount
   const { isConnected, error } = useWebSocket();
 

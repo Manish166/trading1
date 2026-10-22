@@ -1,29 +1,29 @@
-import { create } from 'zustand';
-import type { StateCreator, StoreApi, UseBoundStore, Mutate } from 'zustand'; // 1. Import Mutate
+import { create, type StateCreator } from 'zustand';
 import { devtools, subscribeWithSelector } from 'zustand/middleware';
 
-// 2. Build the output type definition using Zustand's native 'Mutate' tool
-type StoreWithMiddleware<T> = UseBoundStore<
-  Mutate<
-    StoreApi<T>,
-    [
-      ["zustand/subscribeWithSelector", never],
-      ["zustand/devtools", never]
-    ]
-  >
->;
+// 1. Define the middleware mutators that will alter the store types
+type MiddlewareMutators = [
+  ['zustand/devtools', never],
+  ['zustand/subscribeWithSelector', never],
+];
 
-export const createStore = <T extends object>(
-  initializer: StateCreator<T, [], []>
-): StoreWithMiddleware<T> => {
-  const isDev = import.meta.env.DEV;
-
-  // 3. Chain middlewares using standard typings
-  const finalInitializer = subscribeWithSelector(
-    isDev
-      ? devtools(initializer as any, { name: 'MarketStore' })
-      : (initializer as any)
+/**
+ * A reusable store factory that injects devtools and subscribeWithSelector.
+ * 
+ * @param initializer The core store state and actions creator function.
+ * @param storeName Optional name used to identify this instance inside Redux DevTools.
+ */
+export const createStoreFactory = <T extends object>(
+  initializer: StateCreator<T, MiddlewareMutators, []>,
+  storeName?: string
+): ReturnType<typeof create<T, MiddlewareMutators>> => {
+  return create<T>()(
+    devtools(
+      subscribeWithSelector(initializer),
+      {
+        name: storeName,
+        enabled: import.meta.env.MODE !== 'production',
+      }
+    )
   );
-
-  return create<T>()(finalInitializer as any) as StoreWithMiddleware<T>;
 };
