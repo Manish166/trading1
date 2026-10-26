@@ -13,7 +13,7 @@ interface MarketState {
     watchedSymbols: string[];
 
     // 2. The multiplex memory dictionary map (keyed by asset uppercase token, e.g. "BTCUSDT")
-    latestTicks: Record<string, TradeTick>;
+    latestTicks: Record<string, TradeTick | undefined>;
 
     // 3. High-velocity multiplex routing action 
     setRawTick: (symbol: string, tick: TradeTick) => void;
@@ -53,10 +53,11 @@ export const useMarketStore = createStoreFactory<MarketState>((set) => ({
         set((state) => {
             const upperSymbol = symbol.toUpperCase();
             // Wipe the entry from memory to let the Garbage Collector reclaim RAM space
-            const { [upperSymbol]: _, ...remainingTicks } = state.latestTicks;
+            // const { [upperSymbol]: _, ...remainingTicks } = state.latestTicks;
+            state.latestTicks[upperSymbol] = undefined;
             return {
                 watchedSymbols: state.watchedSymbols.filter((sym) => sym !== upperSymbol),
-                latestTicks: remainingTicks
+                latestTicks: state.latestTicks
             };
         }),
 }));
