@@ -1,5 +1,6 @@
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
@@ -17,6 +18,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    babel({ presets: [reactCompilerPreset()], plugins: [['module:@preact/signals-react-transform']] })
+    babel({ presets: [reactCompilerPreset()], plugins: [['module:@preact/signals-react-transform']] }),
+    visualizer({ open: true })
   ],
 })

@@ -30,13 +30,27 @@ export const useMarketStore = createStoreFactory<MarketState>((set) => ({
     latestTicks: {},
 
     // Route incoming trades straight to their corresponding dictionary slots
-    setRawTick: (symbol, tick): void =>
-        set((state) => ({
-            latestTicks: {
-                ...state.latestTicks,
-                [symbol.toUpperCase()]: tick
-            }
-        })),
+    setRawTick: (symbol, tick): void => {
+        const upperSymbol = symbol.toUpperCase();
+        const currentTicks = useMarketStore.getState().latestTicks;
+
+        if (!currentTicks[upperSymbol]) {
+            set((state) => ({
+                latestTicks: {
+                    ...state.latestTicks,
+                    [upperSymbol]: { ...tick }
+                }
+            }));
+            return;
+        }
+
+        // const existingTick = currentTicks[upperSymbol]!;
+        currentTicks[upperSymbol].id = tick.id;
+        currentTicks[upperSymbol].price = tick.price;
+        currentTicks[upperSymbol].quantity = tick.quantity;
+        currentTicks[upperSymbol].isSell = tick.isSell;
+        currentTicks[upperSymbol].timestamp = tick.timestamp; // Chan
+    },
 
     // Push new symbols safely into the tracking collection array without duplicates
     addWatchedSymbol: (symbol): void =>
